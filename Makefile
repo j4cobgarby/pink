@@ -1,5 +1,7 @@
 all: dist/pink.img
-	@echo "Done!"
+
+run: all
+	bochs
 
 clean:
 	rm -rf build dist

@@ -17,7 +17,7 @@ KERNEL_OFFSET equ 0x1000
 
     %include "bios/bios_print.asm"
     %include "bios/bios_disk.asm"
-    %include "gdt.asm"
+    %include "boot/gdt.asm"
     %include "boot/print32.asm"
     %include "boot/switch_to_pm.asm"
 
@@ -37,19 +37,9 @@ KERNEL_OFFSET equ 0x1000
     [bits 32]
 
 BEGIN_PM:
-    ;mov ebx, 0xdeadbeef
-    ;jmp $
-
-    mov ah, 0x0f
-    mov al, 'A'
-    mov [0xb8000], ax
-
-    ;mov ah, 0x0f
-    ;mov ebx, MSG_PROT_MODE
-    ;call vga_print_string
-
+    ; jump to the high level kernel.
+    ; this is the offset that i loaded it to
     call KERNEL_OFFSET
-
     jmp $
 
 vga_cursor_position dw 0

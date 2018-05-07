@@ -1,2 +1,5 @@
 olds/
-boot_sect.bin
+build/
+dist/
+*.bin
+*.o

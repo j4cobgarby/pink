@@ -1,3 +1,4 @@
+[bits 16]
 printc:
     ;push ebx
     ;push eax

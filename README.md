@@ -41,3 +41,19 @@ though (so you won't be able to run it on a raspberry pi).
 
 Any contributions are _very_ welcome. Just have a quick glance at my code and
 make sure you're using the same indent/braces style, etc.
+
+It's probably also worth knowing how the codebase is structured:
+
+```
+.
+├── bios
+│   └──......... Nasm routines for 16bit real mode, which use the bios functions
+├── bochsrc..... The configuration for bochs emulation
+├── boot
+│   └──......... Nasm routines for the bootloader in 32bit protected mode
+├── boot.asm.... The bootloader entry point
+├── kernel
+│   └──......... High level code for the kernel
+├── Makefile.... The master makefile
+└── README.md... What you're currently reading
+```

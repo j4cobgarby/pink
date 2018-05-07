@@ -1,11 +1,11 @@
 /*
  * =====================================================================================
  *
- *       Filename:  kernel.c
+ *       Filename:  io.c
  *
- *    Description:  The kernel entry point.
+ *    Description:  Low level input/output (hardware ports)
  *
- *        Created:  06/05/18 20:40:30
+ *        Created:  07/05/18 15:41:46
  *       Compiler:  gcc
  *
  *         Author:  Jacob Garby (), thyself@jacobgarby.co.uk
@@ -13,12 +13,4 @@
  * =====================================================================================
  */
 
-#include <stdint.h>
-
 #include "io.h"
-
-void main() {
-    char* vidmem = (char*) 0xb8000;
-    *vidmem = 'X';
-    return;
-}

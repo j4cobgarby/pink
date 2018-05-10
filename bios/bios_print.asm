@@ -1,40 +1,43 @@
 [bits 16]
 printc:
-    ;push ebx
-    ;push eax
-    ;mov ah, MODE_WHITE_ON_BLACK
-    ;mov ebx, [write_index]
-    ;mov [ebx + VID_MEM], ax
-    ;pop eax
-    ;pop ebx
-    mov ah, 0x0e
-    int 0x10
+    mov ah, 0x0e ; BIOS teletype function
+    int 0x10 ; BIOS interrupt
     ret
 
+; modifies the memory at hex_digits to represent the low 4 bits
+; of ax
+; and then prints it with the bios, therefore this only works in
+; 16 bit real mode
 print_hex:
     pusha
     
     ; the value to be converted to hex is expected in ax.
     ; bx is the index to put the character in the string.
     mov bx, 3 ; amount of nibbles - 1
-    mov cx, 0 ; digit index
+    mov cx, 0 ; a 4 bit section of the number, changed at each
+              ; loop
 hexloop:
     mov cx, ax
-    and cx, 0xf
+    and cx, 0xf ; put the lowest 4 bits in cx
     
-    push bx
+    push bx ; i need bx here because i want to add the nibble to the hex_digits
+            ; address to get the character to use. currently that nibble is stored
+            ; in cx, but i can only use bx for effective addressing (thanks, x86),
+            ; but i still want to keep the value i already had in bx
     mov bx, cx
-    mov dl, [bx+hex_digits]
-    pop bx
+    mov dl, [bx+hex_digits] ; use dl as a temporary register to store the character
+    pop bx  ; bx is now the index to append the character to the string
     mov [bx+hex_out], dl
     
-    shr ax, 4
-    sub bx, 1
+    shr ax, 4 ; mov the second lowest 4 bits to the end of the number
+    sub bx, 1 ; decrease the position to append the character to the string
     
-    cmp word bx, word 0
+    cmp word bx, word 0 ; if the last character isn't reached yet, loop again
     jge hexloop
 
-    mov bx, hex_pre
+    mov bx, hex_pre ; print bx = the hex prefix
+    call prints
+    mov bx, hex_out ; print the hex digits
     call prints
 
     popa
